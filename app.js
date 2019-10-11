@@ -1,11 +1,10 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cors = require('cors')
-var session = require('express-session')
-var mysqlstore = require('express-mysql-session')
-var app = express();
-
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cors = require('cors')
+const session = require('express-session')
+const mysqlstore = require('express-mysql-session')
+const app = express();
 
 const passport = require('passport'); // 
 const passportConfig = require('./utils/passport'); // 

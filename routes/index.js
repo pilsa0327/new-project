@@ -9,7 +9,8 @@ const auth = require('../utils/auth');
 
 /* GET home page. */
 router.get('/', function (req, res) {
-  let statusUI = auth.statusUI(req, res);
+  let statusUI = auth.statusUI(req, res);+
+  console.log(req.session.is_logined)
   return res.render('index', { statusUI });
 });
 

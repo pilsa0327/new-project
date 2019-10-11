@@ -24,39 +24,28 @@ router.use(session({
   }
 }))
 
-
 router.get('/', function(req, res) {
+  
   return res.render('auth');
 });
-/*
-router.post('/auth_process', function(req, res){
-  let { id, password} = req.body;
-    db.query(`SELECT * FROM user_info WHERE userid =? `, [id], function (err, userInfo) {
-        if (!userInfo.length) {
-            return res.send('아이디 없음')
-        }
-        else {
-            if (userInfo[0].password === password) {
-                req.session.is_logined = true;
-                req.session.userId = userInfo[0].userd;
-                req.session.password = userInfo[0].password;
-                req.session.save(function () {
-                    return res.redirect(`/`)
-                })
-            } else {
-                // 로그인 실패(패스워드 틀림)
-                return res.send('패스워드 틀림')
-            }
-        }
-    })
-})*/
 
 router.post('/auth_process', passport.authenticate('local', {
-    failureRedirect: '/auth'
-  }), (req, res) => {
-    req.session.is_logined = true;
-    res.redirect('/');
-  });
+  failureRedirect: '/auth'
+}), (req, res) => {
+  req.session.is_logined = true;
+  res.redirect('/');
+});
+
+router.get('/facebook', passport.authenticate('facebook', {
+  scope: 'email'
+}));
+
+router.get('/facebook/callback', passport.authenticate('facebook', {
+  failureRedirect: '/auth'
+}), (req, res) => {
+  req.session.is_logined = true;
+  res.redirect('/');
+});
 
 router.get('/logout', function (req, res) {
     req.session.destroy(function(){ 
@@ -64,5 +53,7 @@ router.get('/logout', function (req, res) {
     });
     return res.redirect('/');
   });
+
+
 
 module.exports = router;
